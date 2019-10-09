@@ -1,9 +1,9 @@
 {
-	"name": "killua99/wp-honkify",
+	"name": "killua99/honkify",
 	"description": "WordPress plugin honkify",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0+",
-	"homepage": "https://github.com/killua99/wp-honkify",
+	"homepage": "https://github.com/killua99/honkify",
 	"authors": [
 		{
 			"name": "Luigi Guevara",
@@ -11,8 +11,8 @@
 		}
 	],
 	"support": {
-		"source": "https://github.com/killua99/wp-honkify",
-		"issues": "https://github.com/killua99/wp-honkify/issues"
+		"source": "https://github.com/killua99/honkify",
+		"issues": "https://github.com/killua99/honkify/issues"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
