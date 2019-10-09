@@ -1,0 +1,9 @@
+node_modules
+vendor
+
+# Metas
+
+.DS_Store*
+.idea
+*-sublime.*
+.vscode

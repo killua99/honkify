@@ -1,0 +1,77 @@
+{
+	"name": "killua99/wp-honkify",
+	"description": "WordPress plugin honkify",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0+",
+	"homepage": "https://github.com/killua99/wp-honkify",
+	"authors": [
+		{
+			"name": "Luigi Guevara",
+			"email": "guevara.luigi@gmail.com"
+		}
+	],
+	"support": {
+		"source": "https://github.com/killua99/wp-honkify",
+		"issues": "https://github.com/killua99/wp-honkify/issues"
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"require": {
+		"php": ">=7.1",
+		"composer/installers": "^1.6"
+	},
+	"require-dev": {
+		"roave/security-advisories": "dev-master",
+		"phpunit/phpunit": "^6.5",
+		"stevegrunwell/wp-enforcer": "^0.5.0",
+		"friendsofphp/php-cs-fixer": "^2.13"
+	},
+	"autoload": {
+		"classmap": [
+			"includes"
+		]
+	},
+	"autoload-dev": {
+		"classmap": [
+			"tests"
+		]
+	},
+	"scripts": {
+		"post-install-cmd": [
+			"[ $COMPOSER_DEV_MODE -eq 0 ] || composer install-enforcer",
+			"@docker"
+		],
+		"post-update-cmd": [
+			"[ $COMPOSER_DEV_MODE -eq 0 ] || composer install-enforcer"
+		],
+		"install-enforcer": [
+			"wp-enforcer"
+		],
+		"wp-install": [
+			"docker-compose run wp-cli install-wp"
+		],
+		"docker": [
+			"docker-compose up -d --build",
+			"./.wait-for localhost:8080 -- composer wp-install",
+			"docker-compose run wp_phpunit /app/tests/bin/install.sh wp_plugins_dev_test root '' mysql_phpunit latest true"
+		],
+		"docker-down": [
+			"docker-compose down -v"
+		],
+		"docker-unit": [
+			"docker-compose run --rm wp_phpunit phpunit --colors=always"
+		],
+		"install-phpunit": [
+			"sudo mysql -u root -e \"DROP DATABASE IF EXISTS \\`wp_plugins_dev_test\\`;\"",
+			"WP_TESTS_DIR=/tmp/wp_plugins_dev_test",
+			"export WP_TESTS_DIR; bash tests/bin/install.sh 'wp_plugins_dev_test' root $MYSQL_PASS localhost 4.9.9"
+		],
+		"unit": [
+			"WP_TESTS_DIR=/tmp/wp_plugins_dev_test",
+			"export WP_TESTS_DIR; phpunit --colors=always"
+		],
+		"test": [
+			"@unit"
+		]
+	}
+}

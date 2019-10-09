@@ -1,0 +1,74 @@
+version: '3.7'
+
+services:
+
+  db:
+    image: mariadb:10
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql/data
+    environment:
+      MYSQL_ROOT_PASSWORD: wordpressroot
+      MYSQL_DATABASE: wp_plugins_dev
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+
+  wordpress:
+    build: ./
+    depends_on:
+      - db
+    restart: always
+    environment:
+      WORDPRESS_DB_NAME: wp_plugins_dev
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DEBUG: 1
+    volumes:
+      - .:/var/www/html/wp-content/plugins/honkify
+      - wp:/var/www/html
+      - ./xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+  nginx:
+    image: nginx:1-alpine
+    restart: always
+    command: sh -c "exec nginx -g 'daemon off;'"
+    ports:
+      - "8080:80"
+    volumes:
+      - ./site.conf:/etc/nginx/conf.d/default.conf
+      - .:/var/www/html/wp-content/plugins/honkify
+      - wp:/var/www/html:ro
+    depends_on:
+      - wordpress
+
+  wp-cli:
+    image: wordpress:cli-php7.1
+    restart: always
+    depends_on:
+      - wordpress
+    volumes:
+      - ./install-wp.sh:/usr/local/bin/install-wp
+      - .:/var/www/html/wp-content/plugins/honkify
+      - wp:/var/www/html
+
+  db_phpunit:
+    image: mariadb:10
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: wp_plugins_dev_test
+      MYSQL_ROOT_PASSWORD: ""
+
+  wp_phpunit:
+    image: killua99/wordpress-phpunit
+    depends_on:
+      - db_phpunit
+    volumes:
+      - .:/app
+      - testsuite:/tmp
+
+volumes:
+  db_data: {}
+  wp: {}
+  sock: {}
+  testsuite: {}
