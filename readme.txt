@@ -13,6 +13,8 @@ Need a little more chaos in your life?
 
 == Description ==
 
+This plugin use the library: https://honkify.netlify.com
+
 ## What does Honkify do?
 
 When activated by pressing the key "Y", all links and buttons on the site will stop working, instead triggering a “honk!” sound effect.
