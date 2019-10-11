@@ -25,5 +25,5 @@ Honkify support 3 options to be a little flexible.
 
 ## Install honkify with composer
 
-1) Run in your command line `composer require wpackagist-plugin/yoast-comment-hacks`
+1) Run in your command line `composer require wpackagist-plugin/honkify`
 2) Activate Honkify from the Plugins page
