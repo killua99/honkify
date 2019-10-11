@@ -4,7 +4,7 @@ Donate link: https://killua.me/
 Tags: goose, honk
 Requires at least: 5.0
 Tested up to: 5.2.3
-Requires PHP: 7.1+
+Requires PHP: 7.1
 Stable tag: 1.0.1
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -42,3 +42,9 @@ Honkify support 3 options to be a little flexible.
 
 1) Run in your command line `composer require wpackagist-plugin/yoast-comment-hacks`
 2) Activate Honkify from the Plugins page
+
+== Changelog ==
+
+1.0.0 - 2019-10-11
+
+- Release plugin
